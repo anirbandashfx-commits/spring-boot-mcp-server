@@ -1,40 +1,32 @@
 # Spring Boot MCP Server
 
-> Connects your existing Java services to AI agents — Claude, GitHub Copilot, 
-> Cursor — via SSE (IDE clients) and stdio (CLI clients). Drop in your own 
-> `@Tool` methods and you're done.
-
-<!-- Replace with your actual GIF once recorded -->
-![Demo: Claude calling database and file system tools via MCP](docs/demo.gif)
+> Connects your existing Java services to AI agents — Claude, GitHub Copilot,
+> Cursor — via SSE (IDE clients) and stdio (CLI clients).
+> Drop in your own `@Tool` methods and your Java backend becomes AI-callable.
 
 ---
 
 ## What it does
 
-Exposes 3 ready-to-use MCP tools that any MCP-compatible AI agent can call:
+Exposes ready-to-use MCP tools that any MCP-compatible AI agent can call:
 
 | Tool | What it does | Try asking Claude |
 |------|-------------|-------------------|
-| `queryDatabase` | Read-only SQL queries with SELECT guard | "Show me the 5 most recent orders" |
+| `queryDatabase` | Read-only SQL with SELECT guard | "Show me the 5 most recent orders" |
 | `listFiles` | Browse sandboxed workspace files | "What files are in the reports folder?" |
 | `readFile` | Read file contents from workspace | "Read the contents of config.json" |
-| `getCustomer` | Fetch customer from REST API | "Get details for customer ID abc-123" |
+| `getCustomer` | Fetch customer from CRM REST API | "Get details for customer ID abc-123" |
 | `searchOrders` | Filter orders by status | "Show me all PENDING orders" |
 
 ---
 
 ## Quick start
 
-**1. Clone and configure**
 ```bash
 git clone https://github.com/anirbandashfx-commits/spring-boot-mcp-server.git
 cd spring-boot-mcp-server
 cp application.yml.example src/main/resources/application.yml
 # Edit application.yml with your DB credentials
-```
-
-**2. Run**
-```bash
 mvn spring-boot:run
 ```
 
@@ -60,13 +52,13 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 }
 ```
 
-Restart Claude Desktop. Look for the 🔨 hammer icon in the chat input.
+Restart Claude Desktop. Look for the 🔨 hammer icon in the chat input — your tools will be listed there.
 
 ---
 
 ## Connect to VS Code / Cursor (SSE)
 
-Start the app first (`mvn spring-boot:run`), then add to `.vscode/mcp.json`:
+Start the app first, then add to `.vscode/mcp.json`:
 
 ```json
 {
@@ -81,15 +73,14 @@ Start the app first (`mvn spring-boot:run`), then add to `.vscode/mcp.json`:
 
 ---
 
-## The transport rule (saves you hours)
+## The transport rule (saves you hours of debugging)
 
-| Client | Transport | Config needed |
-|--------|-----------|---------------|
+| Client | Transport | Use this |
+|--------|-----------|----------|
 | Claude Desktop, Claude Code CLI | stdio | `command: java -jar ...` |
 | VS Code, Cursor, Windsurf | SSE | `url: http://localhost:8080/sse` |
 
-Using the wrong transport causes silent connection failures. 
-See [docs/transport-guide.md](docs/transport-guide.md) for details.
+Using the wrong transport causes **silent** connection failures with no useful error message.
 
 ---
 
@@ -101,16 +92,26 @@ public class MyCustomTools {
 
     @Tool(description = "Describe what this tool does in plain English")
     public String myTool(
-        @ToolParam(description = "What this parameter is") String input
+        @ToolParam(description = "What this parameter expects") String input
     ) {
-        // your logic here
         return result;
     }
 }
 ```
 
-That's it. Spring AI auto-registers any `@Service` with `@Tool` methods.
+Spring AI auto-registers any `@Service` with `@Tool` methods. No extra config needed.
 
 ---
 
-## Project structure
+## Built with
+
+- Java 21 + Spring Boot 3.4
+- Spring AI 1.0 MCP Server
+- Tested: Claude Desktop (stdio), VS Code Agent mode (SSE)
+
+---
+
+## Need a custom MCP server for your Java team?
+
+I build these for teams integrating AI agents into existing Spring Boot applications.
+→ [Connect on LinkedIn](https://www.linkedin.com/in/anirbandas1986/)
