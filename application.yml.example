@@ -1,0 +1,7 @@
+spring:
+  ai:
+    mcp:
+      server:
+        name: my-enterprise-mcp-server
+        version: 1.0.0
+        instructions: "Provides database queries, REST API access, and file operations for enterprise Java systems."

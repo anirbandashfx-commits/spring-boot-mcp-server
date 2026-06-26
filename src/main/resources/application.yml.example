@@ -1,0 +1,24 @@
+server:
+  port: 8081
+
+# application.yml.example — copy to application.yml and fill in your values
+
+spring:
+  application:
+    name: spring-boot-mcp-server
+  datasource:
+    url: jdbc:postgresql://localhost:5432/YOUR_DB_NAME
+    username: YOUR_DB_USER
+    password: YOUR_DB_PASSWORD
+  ai:
+    mcp:
+      server:
+        name: spring-boot-mcp-server
+        version: 1.0.0
+        instructions: "Provides database queries, REST API access, and file system tools."
+
+server:
+  port: 8080
+
+mcp:
+  base-dir: /tmp/mcp-workspace

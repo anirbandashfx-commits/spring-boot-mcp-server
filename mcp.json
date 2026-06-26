@@ -1,0 +1,79 @@
+{
+  "name": "my-enterprise-mcp-server",
+  "version": "1.0.0",
+  "description": "Provides database queries, REST API access, and file operations for enterprise Java systems.",
+  "platform": "spring-ai",
+  "servers": {
+    "my-mcp-server": {
+      "type": "sse",
+      "url": "http://localhost:8081/sse"
+    }
+  },
+  "tools": [
+    {
+      "name": "queryDatabase",
+      "description": "Run a read-only SQL query on the application database",
+      "params": [
+        {
+          "name": "sql",
+          "type": "string",
+          "description": "SQL SELECT query to execute"
+        }
+      ]
+    },
+    {
+      "name": "listTables",
+      "description": "List all tables in the database schema",
+      "params": []
+    },
+    {
+      "name": "getCustomer",
+      "description": "Fetch customer data by ID from the internal CRM API",
+      "params": [
+        {
+          "name": "customerId",
+          "type": "string",
+          "description": "Customer UUID"
+        }
+      ]
+    },
+    {
+      "name": "searchOrders",
+      "description": "Search orders by status: PENDING, SHIPPED, DELIVERED, CANCELLED",
+      "params": [
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Order status filter"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "Maximum results to return, 1–50"
+        }
+      ]
+    },
+    {
+      "name": "listFiles",
+      "description": "List files in the workspace directory",
+      "params": [
+        {
+          "name": "subdir",
+          "type": "string",
+          "description": "Subdirectory path relative to workspace, or empty for root"
+        }
+      ]
+    },
+    {
+      "name": "readFile",
+      "description": "Read the contents of a file in the workspace",
+      "params": [
+        {
+          "name": "path",
+          "type": "string",
+          "description": "File path relative to workspace"
+        }
+      ]
+    }
+  ]
+}
